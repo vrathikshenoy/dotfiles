@@ -17,8 +17,10 @@ autoload -Uz _zinit
 # ─── Plugins ──────────────────────────────────────────────────────────────────
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
+zinit light zsh-users/zsh-autosuggestions
+
+# Defer heavier plugins that aren't needed at first keystroke
 zinit wait lucid light-mode for \
-    zsh-users/zsh-autosuggestions \
     zdharma-continuum/fast-syntax-highlighting \
     Aloxaf/fzf-tab
 
