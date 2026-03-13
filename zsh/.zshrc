@@ -71,16 +71,12 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-# ─── Conda ────────────────────────────────────────────────────────────────────
-__conda_setup="$("$PYENV_ROOT/versions/miniconda3-latest/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-elif [ -f "$PYENV_ROOT/versions/miniconda3-latest/etc/profile.d/conda.sh" ]; then
-    . "$PYENV_ROOT/versions/miniconda3-latest/etc/profile.d/conda.sh"
-else
-    export PATH="$PYENV_ROOT/versions/miniconda3-latest/bin:$PATH"
-fi
-unset __conda_setup
+# ─── Conda (lazy load) ────────────────────────────────────────────────────────
+conda() {
+    unset -f conda
+    source "$PYENV_ROOT/versions/miniconda3-latest/etc/profile.d/conda.sh"
+    conda "$@"
+}
 
 # ─── NVM (lazy load) ──────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
@@ -122,7 +118,11 @@ gh-switch() {
 }
 
 # ─── Global .env ──────────────────────────────────────────────────────────────
-[ -f ~/.env ] && export $(cat ~/.env | xargs)
+if [ -f ~/.env ]; then
+  set -a
+  source ~/.env
+  set +a
+fi
 
 # ─── Docker ───────────────────────────────────────────────────────────────────
 export DOCKER_HOST=unix:///var/run/docker.sock
