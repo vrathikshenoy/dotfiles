@@ -163,7 +163,7 @@ All keybindings use the **`Super+B`** leader key (works in both Ghostty and Kitt
 | `Super+B > n`     | New window           |
 | `Super+B > \`     | Vertical split       |
 | `Super+B > -`     | Horizontal split     |
-| `Super+B > h/j/k/l` | Navigate splits (vim-style) |
+| `Super+h/j/k/l`   | Navigate splits (vim-style) |
 
 ---
 
