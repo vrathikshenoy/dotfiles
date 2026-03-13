@@ -24,8 +24,10 @@ zinit wait lucid light-mode for \
     zdharma-continuum/fast-syntax-highlighting \
     Aloxaf/fzf-tab
 
-zinit snippet OMZ::lib/git.zsh
-zinit snippet OMZ::plugins/git/git.plugin.zsh
+# Defer OMZ git snippets (not needed at first keystroke)
+zinit wait lucid for \
+    OMZ::lib/git.zsh \
+    OMZ::plugins/git/git.plugin.zsh
 
 # ─── Autosuggestions ──────────────────────────────────────────────────────────
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
@@ -64,12 +66,20 @@ export PATH="/usr/local/cuda-12.6/bin${PATH:+:${PATH}}"
 export LD_LIBRARY_PATH="/usr/local/cuda-12.6/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 # ─── Rust / Cargo ─────────────────────────────────────────────────────────────
-. "$HOME/.cargo/env"
+export PATH="$HOME/.cargo/bin:$PATH"
 
-# ─── Pyenv ────────────────────────────────────────────────────────────────────
+# ─── Pyenv (lazy load) ────────────────────────────────────────────────────────
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d "$PYENV_ROOT/bin" ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+pyenv() {
+    unset -f pyenv python python3 pip pip3
+    eval "$(command pyenv init -)"
+    pyenv "$@"
+}
+python()  { pyenv; python "$@" }
+python3() { pyenv; python3 "$@" }
+pip()     { pyenv; pip "$@" }
+pip3()    { pyenv; pip3 "$@" }
 
 # ─── Conda (lazy load) ────────────────────────────────────────────────────────
 conda() {
@@ -105,8 +115,9 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# ─── Zoxide ───────────────────────────────────────────────────────────────────
-eval "$(zoxide init zsh)"
+# ─── Zoxide (cached) ──────────────────────────────────────────────────────────
+# Regenerate with: zoxide init zsh > ~/dotfiles/zsh/.zoxide.zsh
+source ~/dotfiles/zsh/.zoxide.zsh
 
 # ─── Aliases ──────────────────────────────────────────────────────────────────
 alias vim="nvim"
@@ -129,3 +140,7 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 
 # ─── Powerlevel10k ────────────────────────────────────────────────────────────
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ─── Compile zshrc for faster sourcing ────────────────────────────────────────
+{ [[ ~/.zshrc -nt ~/.zshrc.zwc ]] && zcompile ~/.zshrc; } 2>/dev/null
+true  # ensure clean exit status for prompt
