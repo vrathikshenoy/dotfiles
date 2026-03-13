@@ -78,6 +78,29 @@ The `.zshrc` is organized into clean sections and uses [**Zinit**](https://githu
 
 ---
 
+## ⚡ Performance
+
+Shell startup benchmarked at **~37ms** average:
+
+```text
+zsh -i -c exit  0.03s user 0.01s system 101% cpu 0.041 total
+zsh -i -c exit  0.03s user 0.00s system 101% cpu 0.035 total
+zsh -i -c exit  0.03s user 0.01s system 101% cpu 0.040 total
+zsh -i -c exit  0.03s user 0.01s system 101% cpu 0.034 total
+zsh -i -c exit  0.03s user 0.01s system  99% cpu 0.037 total
+```
+
+### Optimizations
+
+- **Powerlevel10k instant prompt** — renders prompt before `.zshrc` finishes
+- **Zinit turbo mode** — defers syntax highlighting, fzf-tab, and OMZ git plugins
+- **Lazy-loaded toolchains** — Pyenv, Conda, and NVM initialize only on first use
+- **Cached zoxide** — pre-generated init script sourced as a static file
+- **Inlined cargo PATH** — direct `export` instead of sourcing `.cargo/env`
+- **Auto-zcompile** — `.zshrc` compiles itself for faster subsequent loads
+
+---
+
 ## 🚀 Setup
 
 ### Prerequisites
