@@ -67,8 +67,8 @@ keybind = super+b>backslash=new_split:right
 keybind = super+b>minus=new_split:down
 
 # Split navigation (vim-style hjkl)
-keybind = super+b>h=goto_split:left
-keybind = super+b>j=goto_split:bottom
-keybind = super+b>k=goto_split:top
-keybind = super+b>l=goto_split:right
+keybind = super+h=goto_split:left
+keybind = super+j=goto_split:bottom
+keybind = super+k=goto_split:top
+keybind = super+l=goto_split:right
 
