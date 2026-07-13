@@ -9,6 +9,7 @@ Personal configuration files managed with [GNU Stow](https://www.gnu.org/softwar
 | `ghostty` | [Ghostty](https://ghostty.org) terminal  | `~/.config/ghostty/config`      |
 | `kitty`   | [Kitty](https://sw.kovidgoyal.net/kitty/) terminal | `~/.config/kitty/kitty.conf` |
 | `p10k`    | [Powerlevel10k](https://github.com/romkatv/powerlevel10k) prompt theme | `~/.p10k.zsh` |
+| `zed`     | [Zed](https://zed.dev) editor            | `~/.config/zed/settings.json`, `~/.config/zed/keymap.json` |
 | `zsh`     | Zsh shell configuration                  | `~/.zshrc`                      |
 
 ---
@@ -177,6 +178,10 @@ dotfiles/
 │   └── .config/kitty/kitty.conf
 ├── p10k/
 │   └── .p10k.zsh
+├── zed/
+│   └── .config/zed/
+│       ├── settings.json
+│       └── keymap.json
 ├── zsh/
 │   └── .zshrc
 └── README.md

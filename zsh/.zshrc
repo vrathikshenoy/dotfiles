@@ -88,20 +88,9 @@ conda() {
     conda "$@"
 }
 
-# ─── NVM (lazy load) ──────────────────────────────────────────────────────────
+# ─── NVM ──────────────────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
-
-nvm() {
-    unset -f nvm node npm npx pnpm bun
-    [ -s "$NVM_DIR/nvm.sh" ]          && \. "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-    nvm "$@"
-}
-node() { nvm; node "$@" }
-npm()  { nvm; npm "$@" }
-npx()  { nvm; npx "$@" }
-pnpm() { nvm; pnpm "$@" }
-bun()  { nvm; bun "$@" }
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 # ─── Bun ──────────────────────────────────────────────────────────────────────
 export BUN_INSTALL="$HOME/.bun"
@@ -144,3 +133,15 @@ export DOCKER_HOST=unix:///var/run/docker.sock
 # ─── Compile zshrc for faster sourcing ────────────────────────────────────────
 { [[ ~/.zshrc -nt ~/.zshrc.zwc ]] && zcompile ~/.zshrc; } 2>/dev/null
 true  # ensure clean exit status for prompt
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/vrathik/.local/bin:$PATH"
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<
