@@ -62,8 +62,8 @@ export PATH="/usr/local/nvim/bin:$PATH"
 export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # ─── CUDA ─────────────────────────────────────────────────────────────────────
-export PATH="/usr/local/cuda-12.6/bin${PATH:+:${PATH}}"
-export LD_LIBRARY_PATH="/usr/local/cuda-12.6/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+export PATH="/usr/local/cuda/bin${PATH:+:${PATH}}"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 # ─── Rust / Cargo ─────────────────────────────────────────────────────────────
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -117,6 +117,17 @@ gh-switch() {
     gh auth switch "$@" && gh auth setup-git
 }
 
+# Vercel account switcher completions
+_vc_switch_completions() {
+    local -a commands profiles
+    commands=("ls:List accounts" "login:Log in and save new account" "save:Save current session" "rm:Remove account" "whoami:Show active account" "help:Show help")
+    if [ -d "$HOME/.config/vc-switch/profiles" ]; then
+        profiles=($(ls "$HOME/.config/vc-switch/profiles" 2>/dev/null))
+    fi
+    _describe "command" commands -- profiles
+}
+compdef _vc_switch_completions vc-switch vercel-switch 2>/dev/null || true
+
 # ─── Global .env ──────────────────────────────────────────────────────────────
 if [ -f ~/.env ]; then
   set -a
@@ -145,3 +156,21 @@ export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
+
+# pnpm
+export PNPM_HOME="/home/vrathik/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
+# Expo/Android dev env (Wearify) — added 2026-07-23
+export ANDROID_HOME=/home/vrathik/Android/Sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+
+# Qwen Code PATH block begin
+export PATH='/home/vrathik/.local/bin':$PATH
+# Qwen Code PATH block end
